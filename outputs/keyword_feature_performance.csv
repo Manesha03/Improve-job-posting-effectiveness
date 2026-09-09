@@ -1,0 +1,9 @@
+feature,posts_with_feature,avg_applies_with,avg_applies_without,avg_apply_rate_with,avg_apply_rate_without,avg_clarity_with
+has_flexibility,43064,2.75,1.59,0.0403,0.0301,48.82
+has_growth_language,92642,1.93,2.18,0.0325,0.0372,48.92
+has_culture_language,98429,1.89,2.4,0.0324,0.0388,49.02
+has_requirements_section,103458,1.8,2.96,0.0314,0.0453,48.86
+has_responsibilities_section,83977,1.65,2.73,0.0302,0.0411,48.59
+has_salary_language,72432,1.5,2.69,0.0266,0.0437,52.15
+has_call_to_action,46576,1.48,2.31,0.027,0.0377,54.78
+has_benefits,80761,1.42,3.08,0.0252,0.0497,52.87
