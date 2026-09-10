@@ -1,0 +1,7 @@
+# Large generated datasets
+outputs/cleaned_postings.csv
+
+# Local Python cache files
+__pycache__/
+*.py[cod]
+
