@@ -1,24 +1,160 @@
-# Job Description Optimization
+# Job Description Optimization Analysis
 
-This project analyzes a raw job postings dataset to understand which job descriptions generate more applications and what writing patterns improve posting effectiveness.
+Analyze job posting effectiveness using a raw LinkedIn-style postings dataset. The project cleans job descriptions, extracts NLP-based text features, identifies high-performing wording patterns, and generates practical reports, templates, and writing guidelines.
 
-## Project Goals
+## Project Overview
 
-- Clean the raw job postings dataset.
-- Identify job descriptions that receive the most applications.
-- Find effective keywords and phrases used in high-performing postings.
-- Use NLP-style text features to assess readability, clarity, sentiment, and tone.
-- Produce practical templates and writing guidelines for better job descriptions.
+This is a data analysis project focused on improving job description quality and application performance.
+
+The analysis answers four main questions:
+
+| Question | Output |
+|---|---|
+| Which job descriptions generate the most applications? | Top postings by applications and apply rate |
+| Which keywords and phrases appear in high-performing postings? | Effective keyword lift analysis |
+| How readable and clear are the descriptions? | Readability, grade-level proxy, clarity score |
+| What tone and structure work best? | Sentiment, section flags, writing recommendations |
+
+## Repository Structure
+
+```text
+Improve-job-posting-effectiveness/
+|
++-- scripts/
+|   +-- job_description_analysis.py
+|
++-- reports/
+|   +-- job_description_effectiveness_report.md
+|   +-- writing_guidelines.md
+|
++-- templates/
+|   +-- optimized_templates_library.md
+|
++-- outputs/
+|   +-- effective_keywords.csv
+|   +-- feature_correlations.csv
+|   +-- keyword_feature_performance.csv
+|   +-- length_performance.csv
+|   +-- segment_performance.csv
+|   +-- top_posts_by_applications.csv
+|   +-- top_posts_by_apply_rate.csv
+|   +-- cleaned_postings.csv        # generated locally, ignored by Git
+|
++-- README.md
++-- .gitignore
+```
 
 ## Dataset
 
-The source dataset used by the analysis script is:
+The raw dataset is expected at:
 
 ```text
 C:\Users\User\Downloads\postings.csv\postings.csv
 ```
 
-The raw dataset contains job posting fields such as title, company name, description, views, applies, work type, salary information, remote status, and skills description.
+The source CSV contains job posting fields such as:
+
+- `job_id`
+- `company_name`
+- `title`
+- `description`
+- `views`
+- `applies`
+- `location`
+- `formatted_work_type`
+- `formatted_experience_level`
+- `remote_allowed`
+- `sponsored`
+- `normalized_salary`
+- `skills_desc`
+
+## Important CSV Note
+
+The generated cleaned dataset is:
+
+```text
+outputs/cleaned_postings.csv
+```
+
+This file is large, around hundreds of MB, so it is intentionally excluded from Git using `.gitignore`.
+
+Do not commit `outputs/cleaned_postings.csv` to GitHub. GitHub blocks normal pushes with files over 100 MB. The file can be regenerated anytime by running the analysis script.
+
+Tracked files should include:
+
+- analysis script
+- reports
+- templates
+- smaller summary CSV outputs
+- README
+- `.gitignore`
+
+## Pipeline Flow
+
+```text
+Raw postings.csv
+      |
+      v
+Load data in chunks
+      |
+      v
+Clean text and numeric fields
+      |
+      v
+Remove invalid rows and duplicate job IDs
+      |
+      v
+Generate NLP-style features
+      |
+      v
+Analyze applications, apply rate, keywords, tone, and readability
+      |
+      v
+Write cleaned data, CSV summaries, reports, templates, and guidelines
+```
+
+## Features Created
+
+The script adds analysis fields such as:
+
+| Feature | Description |
+|---|---|
+| `apply_rate` | Applications divided by views |
+| `word_count` | Number of words in the description |
+| `sentence_count` | Estimated sentence count |
+| `flesch_reading_ease` | Readability ease proxy |
+| `flesch_kincaid_grade` | Estimated grade-level proxy |
+| `sentiment_score` | Positive vs negative tone score |
+| `clarity_score` | Combined clarity/readability structure score |
+| `has_salary_language` | Detects salary, pay, compensation language |
+| `has_benefits` | Detects benefits-related language |
+| `has_flexibility` | Detects remote, hybrid, flexible work language |
+| `has_growth_language` | Detects growth, learning, development language |
+| `has_culture_language` | Detects culture and team language |
+| `has_requirements_section` | Detects requirements/qualification wording |
+| `has_responsibilities_section` | Detects duties/responsibility wording |
+| `has_call_to_action` | Detects apply/submit/send resume language |
+
+## Requirements
+
+Python is required.
+
+The script uses:
+
+- `pandas`
+- built-in Python libraries: `csv`, `math`, `re`, `collections`, `pathlib`
+
+Install pandas if needed:
+
+```powershell
+pip install pandas
+```
+
+Check Python:
+
+```powershell
+python --version
+```
 
 ## How To Run
 
@@ -29,11 +165,11 @@ cd "D:\GR - Intern\Improve-job-posting-effectiveness"
 python scripts/job_description_analysis.py
 ```
 
-If the cleaned dataset already exists, the script reuses it and regenerates the report files. If it does not exist, the script reads the raw CSV, cleans it, creates NLP features, and writes all outputs.
+If `outputs/cleaned_postings.csv` already exists, the script reuses it and regenerates reports faster. If it does not exist, the script reads the raw CSV and creates the cleaned dataset from scratch.
 
-## Expected Terminal Output
+## Expected Output
 
-A successful run should look similar to this:
+A successful run should show output similar to:
 
 ```text
 Using existing cleaned file: outputs\cleaned_postings.csv
@@ -49,7 +185,7 @@ Reports and templates are ready.
 
 ## Main Deliverables
 
-### 1. Job Description Effectiveness Report
+### Job Description Effectiveness Report
 
 ```text
 reports/job_description_effectiveness_report.md
@@ -57,31 +193,14 @@ reports/job_description_effectiveness_report.md
 
 Includes:
 
-- Dataset cleaning summary.
-- Top job postings by total applications.
-- Top job postings by apply rate.
-- Effective keywords and phrases.
-- Readability, clarity, sentiment, and tone analysis.
-- Recommendations for improving job descriptions.
+- cleaning summary
+- top postings by total applications
+- top postings by apply rate
+- effective keywords and phrases
+- readability, clarity, sentiment, and tone findings
+- recommendations for better job descriptions
 
-### 2. Cleaned Dataset
-
-```text
-outputs/cleaned_postings.csv
-```
-
-Contains cleaned postings with additional analysis fields, including:
-
-- `apply_rate`
-- `word_count`
-- `sentence_count`
-- `flesch_reading_ease`
-- `flesch_kincaid_grade`
-- `sentiment_score`
-- `clarity_score`
-- keyword flags such as salary, benefits, flexibility, growth, culture, requirements, responsibilities, and call-to-action language
-
-### 3. Optimized Templates Library
+### Optimized Templates Library
 
 ```text
 templates/optimized_templates_library.md
@@ -89,61 +208,75 @@ templates/optimized_templates_library.md
 
 Includes reusable templates for:
 
-- General professional roles.
-- Technical roles.
-- Entry-level or internship roles.
+- general professional roles
+- technical roles
+- entry-level or internship roles
 
-### 4. Writing Guidelines
+### Writing Guidelines
 
 ```text
 reports/writing_guidelines.md
 ```
 
-Provides practical guidance for writing clearer and more effective job descriptions.
+Includes practical guidance for:
 
-## Supporting Analysis Outputs
+- structure
+- readability
+- tone
+- inclusive wording
+- keyword usage
+- final quality checks
 
-The `outputs/` folder also includes:
+## Supporting CSV Outputs
+
+| File | Purpose |
+|---|---|
+| `outputs/effective_keywords.csv` | Terms more common in high-application postings |
+| `outputs/feature_correlations.csv` | Correlations between text features, applications, and apply rate |
+| `outputs/keyword_feature_performance.csv` | Performance of salary, benefits, flexibility, growth, culture, and CTA signals |
+| `outputs/length_performance.csv` | Application performance by description length |
+| `outputs/segment_performance.csv` | Performance by work type, experience level, remote flag, and sponsorship |
+| `outputs/top_posts_by_applications.csv` | Highest total application postings |
+| `outputs/top_posts_by_apply_rate.csv` | Highest apply-rate postings with a visibility threshold |
+
+These files can be opened in Excel, Power BI, Tableau, or any spreadsheet tool.
+
+## Current Results Summary
+
+The latest generated analysis produced:
 
 ```text
-outputs/effective_keywords.csv
-outputs/feature_correlations.csv
-outputs/keyword_feature_performance.csv
-outputs/length_performance.csv
-outputs/segment_performance.csv
-outputs/top_posts_by_applications.csv
-outputs/top_posts_by_apply_rate.csv
+Raw records processed: 123,849
+Cleaned postings:      123,842
+Removed records:       7
+Duplicate job IDs:     0
 ```
 
-These files support the main report and can be opened in Excel, Power BI, Tableau, or any spreadsheet tool.
+Key finding examples:
 
-## Method Summary
+- Shorter job descriptions had stronger average apply rates.
+- Views are strongly related to total applications, so apply rate is used as a quality-adjusted metric.
+- Flexible work language was associated with higher average applications and apply rate.
+- The report recommends concise structure, clear responsibilities, realistic requirements, benefits, flexibility, growth language, and a direct call to action.
 
-The script performs the following steps:
+## GitHub / Version Control Notes
 
-1. Loads the raw CSV in chunks so the large file can be processed safely.
-2. Cleans text fields and numeric columns.
-3. Removes rows with missing key fields and duplicate job IDs.
-4. Calculates application rate using `applies / views`.
-5. Extracts text features from job descriptions.
-6. Scores readability, clarity, and sentiment.
-7. Compares high-application postings against low-application postings to identify effective terms.
-8. Generates CSV outputs, a Markdown report, a templates library, and writing guidelines.
+`outputs/cleaned_postings.csv` is ignored because it is too large for GitHub.
 
-## Requirements
+The repository should store reproducible code and lightweight deliverables. Large generated data should stay local or be stored using another large-file solution such as Git LFS, cloud storage, or a shared drive.
 
-Python is required. The script uses:
+Recommended commit scope:
 
-- `pandas`
-- standard Python libraries: `csv`, `math`, `re`, `collections`, and `pathlib`
-
-Install pandas if needed:
-
-```powershell
-pip install pandas
+```text
+scripts/job_description_analysis.py
+reports/
+templates/
+outputs/*.csv except outputs/cleaned_postings.csv
+README.md
+.gitignore
 ```
 
-## Notes
+## Project Type
 
-This is a data analysis project, not a web application. Running the project generates cleaned data files and report documents.
+This is not a web application. Running the project generates data analysis artifacts: cleaned data, summary tables, reports, templates, and writing guidelines.
 
